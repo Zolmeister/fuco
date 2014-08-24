@@ -340,7 +340,7 @@ function draw(point) {
 
       radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
       radgrad.addColorStop(0, $white)
-      radgrad.addColorStop(0.8, $white.alpha(1))
+      radgrad.addColorStop(0.9, $white.alpha(1))
       radgrad.addColorStop(1, $white.alpha(0))
       ctx.fillStyle = radgrad
       ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)

@@ -39,3 +39,13 @@ canv.addEventListener('touchend', function (e) {
   e.preventDefault()
   drawEnd()
 })
+
+window.addEventListener('keydown', function (e) {
+  if (e.which >= 49 && e.which < 59) {
+    var index = e.which - 49
+    if (pallet[index]) {
+      selectedPallet = pallet[index]
+      paintPallet()
+    }
+  }
+})
