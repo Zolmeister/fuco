@@ -349,7 +349,7 @@
   PLAY
 </button>
 <br>
-<a href="https://twitter.com/share?url=http%3A%2F%2Ffuco.zolmeister.com&text=Play FUCO online, free, on any device!&hashtags=fuco"
+<a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Ffuco.zolmeister.com&text=Play FUCO online, free, on any device!&hashtags=fuco"
  target="_blank"
  class="tweet-button">
  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -359,11 +359,13 @@
   height="16"
   class="bird"
   version="1.1"
+  style="vertical-align:middle"
   xmlns="http://www.w3.org/2000/svg">
   <path
     d="m 1999.9999,192.4 c -73.58,32.64 -152.67,54.69 -235.66,64.61 84.7,-50.78 149.77,-131.19 180.41,-227.01 -79.29,47.03 -167.1,81.17 -260.57,99.57 C 1609.3399,49.82 1502.6999,0 1384.6799,0 c -226.6,0 -410.328,183.71 -410.328,410.31 0,32.16 3.628,63.48 10.625,93.51 -341.016,-17.11 -643.368,-180.47 -845.739,-428.72 -35.324,60.6 -55.5583,131.09 -55.5583,206.29 0,142.36 72.4373,267.95 182.5433,341.53 -67.262,-2.13 -130.535,-20.59 -185.8519,-51.32 -0.039,1.71 -0.039,3.42 -0.039,5.16 0,198.803 141.441,364.635 329.145,402.342 -34.426,9.375 -70.676,14.395 -108.098,14.395 -26.441,0 -52.145,-2.578 -77.203,-7.364 52.215,163.008 203.75,281.649 383.304,284.946 -140.429,110.062 -317.351,175.66 -509.5972,175.66 -33.1211,0 -65.7851,-1.949 -97.8828,-5.738 181.586,116.4176 397.27,184.359 628.988,184.359 754.732,0 1167.462,-625.238 1167.462,-1167.47 0,-17.79 -0.41,-35.48 -1.2,-53.08 80.1799,-57.86 149.7399,-130.12 204.7499,-212.41"
     style="fill:#424242"/>
 </svg>
+<strong class="crystal-text">+3 <img class="crystal" src="crystal.svg"></strong>
 </a>
 </div>
 
@@ -378,7 +380,7 @@
     PLAY AGAIN
   </button>
   <br>
-  <a href="https://twitter.com/share?url=http%3A%2F%2Ffuco.zolmeister.com&text=Play FUCO online, free, on any device!&hashtags=fuco"
+  <a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Ffuco.zolmeister.com&text=Play FUCO online, free, on any device!&hashtags=fuco"
    target="_blank"
    class="tweet-score">
    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -396,6 +398,10 @@
   </svg>
   I'm the best!
   </a>
+</div>
+<div class='tweet-bubble'>
+  Great Tweet! <strong>+3 <img class="crystal" src="crystal.svg"></strong><br>
+  Come back tomorrow for more!
 </div>
 <script src='./util.js'></script>
 <script src='./vars.js'></script>
@@ -428,6 +434,41 @@ body {
   -ms-transform: translate(-200%, 0);
   -o-transform: translate(-200%, 0);
   transform: translate(-200%, 0);
+}
+.tweet-button {
+  vertical-align: middle;
+  text-align: middle;
+}
+.tweet-button {
+  color: #212121;
+  text-decoration: none;
+}
+.crystal-text {
+  display: none;
+}
+.crystal {
+  width: 20px;
+  height: 20px;
+}
+.tweet-bubble {
+  position: absolute;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: 20px;
+  border-radius: 10px;
+  width: 300px;
+  font-size: 20px;
+  height: 50px;
+  background: #4fc3f7;
+  padding: 20px;
+  text-align: center;
+  display: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -ms-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 .home-screen, .game-over-screen {
   text-align: center;
@@ -501,6 +542,66 @@ button::-moz-focus-inner{
 }
 </style>
 <script>
+window.twttr = (function (d,s,id) {
+  var t, js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+  js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+  return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+}(document, "script", "twitter-wjs"));
+
+
+twttr.ready(function (twttr) {
+  twttr.events.bind('tweet', function (intentEvent) {
+    if (!intentEvent) return
+
+    var lastTweet = localStorage.lastTweet || '0'
+    if (!notTweetedToday(lastTweet)) return
+    // grant crystal
+    grantCrystals()
+  })
+})
+</script>
+<script>
+var isFirstTime = !localStorage.hasVisited
+if (isFirstTime) {
+  crystals = 2
+  localStorage.crystals = crystals
+}
+localStorage.hasVisited = true
+
+var lastTweet = localStorage.lastTweet || '0'
+
+function grantCrystals() {
+  localStorage.lastTweet = Date.now()
+  $crystalText.style.display = 'none'
+  crystals += 2
+  localStorage.crystals = crystals
+  $tweetBubble.style.display = 'block'
+  $tweetBubble.offsetTop
+  $tweetBubble.style.opacity = 1
+  setTimeout(function () {
+    $tweetBubble.style.opacity = 0
+    setTimeout(function () {
+      $tweetBubble.style.display = 'none'
+    }, 500)
+  }, 3000)
+}
+
+function notTweetedToday(timeStr) {
+  var time = parseInt(timeStr, 10)
+  var hr18 = 6.48e7
+  var now = Date.now()
+  if (now - time > hr18) {
+    return true
+  }
+
+  return false
+}
+var $crystalText = document.getElementsByClassName('crystal-text')[0]
+if (!isFirstTime && notTweetedToday(lastTweet)) {
+  $crystalText.style.display = 'inline-block'
+}
+
 var $bird = document.getElementsByClassName('bird')
 var i = $bird.length
 while(i--) {
@@ -510,6 +611,8 @@ while(i--) {
 setTimeout(function () {
   $bird[0].style.opacity = 1
 })
+
+var $tweetBubble = document.getElementsByClassName('tweet-bubble')[0]
 
 var $tweetButton = document.getElementsByClassName('tweet-button')[0]
 $tweetButton.style.marginTop = window.innerHeight / 30
@@ -564,8 +667,8 @@ while(i--) {
 
 
 //DEBUG
-// start()
-// hideHome()
+start()
+hideHome()
 // showEnd(10)
 
 function hideHome() {
@@ -586,7 +689,7 @@ function showEnd(score, newHigh) {
 
   $best.style.fontSize = window.innerWidth / 30
 
-  $tweetScore.href = 'https://twitter.com/share?url=http%3A%2F%2Ffuco.zolmeister.com&text=I got ' + score + ' points in FUCO, YEAH!!!&hashtags=fuco'
+  $tweetScore.href = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Ffuco.zolmeister.com&text=I got ' + score + ' points in FUCO, YEAH!!!&hashtags=fuco'
 
   if (!newHigh) {
     $best.innerHTML = 'Best: ' + localStorage.highScore || 0

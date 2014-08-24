@@ -19,6 +19,16 @@ var RADIUS = ~~(SCALE / 5.6)
 var $white = new Color(249, 249, 249)
 var $bgColor = new Color(158, 158, 158)
 
+var crystals = parseInt(localStorage.crystals || '0', 10)
+var crystalImg = new Image()
+crystalImg.src = './crystal.svg'
+var crystal = {
+  x: WIDTH2 - SCALE / 20 - SCALE / 40,
+  y: -HEIGHT2 + SCALE / 20 + SCALE / 40,
+  size: SCALE / 20
+}
+
+
 var canv = document.getElementById('canv')
 canv.width = WIDTH
 canv.height = HEIGHT
@@ -42,3 +52,4 @@ var selectedPallet = null
 var time = 60
 var levelIndex = 0
 var isPlaying = false
+var hasUsedCrystal = false

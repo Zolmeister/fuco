@@ -10,6 +10,7 @@ function newGame() {
   selectedPallet = null
   time = 60
   isPlaying = true
+  hasUsedCrystal = false
 
   setPallet()
   repaint()
@@ -105,7 +106,9 @@ function isOnTimeText(point) {
   var fontSize = SCALE / 30
   var padding = SCALE / 60
   var x = WIDTH2 - padding - fontSize * 3
-  var y = -HEIGHT2 + fontSize + padding + fontSize
+
+  // plus crystal size
+  var y = -HEIGHT2 + fontSize + padding + fontSize + crystal.size * 1.4
 
   return point.x > x && point.y < y
 }
@@ -121,7 +124,44 @@ function repaint() {
   paintCompletion()
   paintTime()
   paintLines()
+  paintCrystals()
   isDrawing = false
+}
+
+function paintCrystals() {
+  ctx.fillStyle = $bgColor
+  ctx.fillRect(crystal.x, crystal.y, crystal.size, crystal.size)
+  if (!(crystals > 0) || hasUsedCrystal)
+    ctx.globalAlpha = 0.3
+
+  ctx.drawImage(crystalImg, crystal.x, crystal.y, crystal.size, crystal.size)
+
+  ctx.globalAlpha = 1
+}
+
+function useCrystal(point) {
+  if (!(crystals > 0)) return
+
+  function addTime() {
+    time += 1
+    paintTime()
+    cnt-=1
+    if (cnt > 0) {
+      setTimeout(addTime, 100)
+    }
+  }
+
+  var crystalPoint = {x: crystal.x + WIDTH2, y: crystal.y + HEIGHT2}
+  if (distanceBetween(point, crystalPoint) < crystal.size ) {
+
+    var cnt = 15
+    addTime()
+
+    hasUsedCrystal = true
+    crystals--
+    localStorage.crystals = crystals
+    paintCrystals()
+  }
 }
 
 function paintLines() {
@@ -322,6 +362,7 @@ function drawStart(point) {
   lastPoint = point
 
   selectPallet(point)
+  useCrystal(point)
 }
 
 function drawEnd() {
@@ -360,8 +401,9 @@ function draw(point) {
     if (y < SCALE / 20 + 5 && y > -SCALE / 20 - 5) continue
 
     // Don't color the area with the percent
-    if (isOnCompletionText({x: x, y: y})) continue
-    if (isOnTimeText({x: x, y: y})) continue
+    var pt = {x: x, y: y}
+    if (isOnCompletionText(pt)) continue
+    if (isOnTimeText(pt)) continue
 
     var radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
 
@@ -379,8 +421,9 @@ function draw(point) {
     }
 
     // Don't color the area with the percent
-    if (isOnCompletionText({x: x, y: y})) continue
-    if (isOnTimeText({x: x, y: y})) continue
+    pt.y = y
+    if (isOnCompletionText(pt)) continue
+    if (isOnTimeText(pt)) continue
 
     radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
     radgrad.addColorStop(0, selectedPallet.color)
