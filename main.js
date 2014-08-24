@@ -14,15 +14,18 @@ function newGame() {
   setPallet()
   repaint()
 
-  // completion of 80%+ should trigger next level
+  // completion of 80%+ triggers next level
   intervals.push(setInterval(function () {
     completion = getCompletion() / completionBaseline
     paintCompletion()
     if (completion >= 0.80) {
-      if (levelIndex + 1 < levels.length)
+      if (levelIndex + 1 < levels.length){
         levelIndex++
-      repaint()
-      //alert('win!')
+        slide()
+        setTimeout(function () {
+          repaint()
+        }, 250)
+      }
     }
   }, 500))
 
@@ -40,6 +43,13 @@ function newGame() {
     }
   }, 1000))
 
+}
+
+function slide() {
+  canv.className = canv.className + ' slide-out'
+  setTimeout(function () {
+    canv.className = canv.className.replace('slide-out', '')
+  }, 250)
 }
 
 function getScore() {

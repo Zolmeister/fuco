@@ -416,6 +416,18 @@ body {
   top: 0;
   left: 0;
   visibility: hidden;
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -ms-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+.slide-out {
+  -webkit-transform: translate(-200%, 0);
+  -moz-transform: translate(-200%, 0);
+  -ms-transform: translate(-200%, 0);
+  -o-transform: translate(-200%, 0);
+  transform: translate(-200%, 0);
 }
 .home-screen, .game-over-screen {
   text-align: center;
@@ -552,7 +564,7 @@ while(i--) {
 
 
 //DEBUG
-//start()
+// start()
 // hideHome()
 // showEnd(10)
 
