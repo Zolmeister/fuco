@@ -1,4 +1,3 @@
-var levelIndex = 7
 var cy = -RADIUS * 1.5
 var levels = [
   [ // 1
@@ -217,10 +216,14 @@ var levels = [
     {
       color: new Color(0,102,255),
       path: function (ctx) {
-        var thick = 36
-        var width = 20
-        var size = 66
-        var length = 60
+        // 17.777
+        // 32
+        // 9.7
+        // 10.66
+        var thick = SCALE/17.77
+        var width = SCALE/32
+        var size = SCALE/9.7
+        var length = SCALE/10.6
         //   |-> -> ->|
         //   |<- <- <-|
         //          //

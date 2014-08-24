@@ -3,24 +3,67 @@
 ctx.lineJoin = ctx.lineCap = 'round'
 ctx.translate(WIDTH2, HEIGHT2)
 
-setPallet()
-repaint()
+function newGame() {
+  levelIndex = 6
+  completion = 0
+  isDrawing = false
+  lastPoint = null
+  selectedPallet = null
+  time = 60
 
-// completion of 80%+ should trigger next level
-setInterval(function () {
-  completion = getCompletion() / completionBaseline
-  paintCompletion()
-  // DEBUG
-  if (completion >= 0.80) {
-    levelIndex++
-    repaint()
-    //alert('win!')
-  }
-}, 500)
+  setPallet()
+  repaint()
+
+  // completion of 80%+ should trigger next level
+  setInterval(function () {
+    completion = getCompletion() / completionBaseline
+    paintCompletion()
+    if (completion >= 0.80) {
+      if (levelIndex + 1 < levels.length)
+        levelIndex++
+      repaint()
+      //alert('win!')
+    }
+  }, 500)
+
+  setInterval(function () {
+    time--
+    paintTime()
+  }, 1000)
+
+}
+newGame()
 
 function paintBg() {
   ctx.fillStyle = $bgColor
   ctx.fillRect(-WIDTH2, -HEIGHT2, WIDTH, HEIGHT)
+}
+
+function paintTime() {
+  var fontSize = SCALE / 30
+  var padding = SCALE / 60
+  var seconds = time + 's'
+  var x = WIDTH2 - padding - fontSize * 2
+  var y = -HEIGHT2 + fontSize + padding
+
+
+  ctx.fillStyle = $bgColor
+  ctx.fillRect(x, y - fontSize, fontSize * 3, fontSize + 2)
+
+  ctx.textAlign = 'left'
+  ctx.fillStyle = '#222'
+  ctx.font = 'bold ' + fontSize + 'px "Open Sans"'
+
+  ctx.fillText(seconds, x, y)
+}
+
+function isOnTimeText(point) {
+  var fontSize = SCALE / 30
+  var padding = SCALE / 60
+  var x = WIDTH2 - padding - fontSize * 3
+  var y = -HEIGHT2 + fontSize + padding + fontSize
+
+  return point.x > x && point.y < y
 }
 
 // this clears user edits!
@@ -32,6 +75,7 @@ function repaint() {
   paintPallet()
   completionBaseline = getCompletion(true)
   paintCompletion()
+  paintTime()
   isDrawing = false
 }
 
@@ -43,7 +87,7 @@ function paintCompletion() {
   var percent = ~~(Math.max(0, completion - 0.02) * 100) + '%'
 
   ctx.fillStyle = $bgColor
-  ctx.fillRect(x, y - fontSize, fontSize * percent.length, fontSize)
+  ctx.fillRect(x, y - fontSize, fontSize * 2, fontSize + 2)
 
   ctx.textAlign = 'left'
   ctx.fillStyle = '#222'
@@ -55,7 +99,7 @@ function paintCompletion() {
 function isOnCompletionText(point) {
   var fontSize = SCALE / 30
   var padding = SCALE / 60
-  var x = -WIDTH2 + padding + fontSize * 4
+  var x = -WIDTH2 + padding + fontSize * 3
   var y = -HEIGHT2 + fontSize + padding + fontSize
 
   return point.x < x && point.y < y
@@ -119,10 +163,6 @@ function paintLevel() {
     ctx.moveTo(x, y)
     poly.path(ctx, x, y)
     ctx.fill()
-
-    // DEBUG
-    ctx.strokeStyle = '#000'
-    ctx.stroke()
   }
 
   if (levelIndex === 0) {
@@ -201,8 +241,7 @@ function paintPallet() {
     }
 
     ctx.fillStyle = pallet[i].color
-    ctx.lineWidth = 10
-    roundRect(ctx, pallet[i].x, 0, size, size, 5, true, false)
+    roundRect(ctx, pallet[i].x, 0, size, size, SCALE/150, true, false)
   }
 }
 
@@ -262,6 +301,7 @@ function draw(point) {
 
     // Don't color the area with the percent
     if (isOnCompletionText({x: x, y: y})) continue
+    if (isOnTimeText({x: x, y: y})) continue
 
     var radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
 
@@ -280,6 +320,7 @@ function draw(point) {
 
     // Don't color the area with the percent
     if (isOnCompletionText({x: x, y: y})) continue
+    if (isOnTimeText({x: x, y: y})) continue
 
     radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
     radgrad.addColorStop(0, selectedPallet.color)

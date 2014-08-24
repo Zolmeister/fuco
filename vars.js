@@ -1,5 +1,6 @@
-var WIDTH = window.innerWidth
-var HEIGHT = window.innerHeight
+var RATIO = window.devicePixelRatio || 1
+var WIDTH = window.innerWidth * RATIO
+var HEIGHT = window.innerHeight * RATIO
 var SCALE = HEIGHT
 var PI = Math.PI
 var TAO = PI * 2
@@ -14,13 +15,17 @@ canv.width = WIDTH
 canv.height = HEIGHT
 var ctx = canv.getContext('2d')
 
-var isDrawing, lastPoint
-var isColor = true
-var completion = 0
 var completionBaseline = 0
 
 var palletSize = SCALE / 20
 var palletBoxSize = palletSize + SCALE / 60
 var palletMargin = SCALE / 60
-var selectedPallet = null
 var pallet = []
+
+
+var completion = 0
+var isDrawing = false
+var lastPoint = null
+var selectedPallet = null
+var time = 60
+var levelIndex = 0
