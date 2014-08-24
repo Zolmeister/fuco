@@ -8,7 +8,7 @@ function newGame() {
   isDrawing = false
   lastPoint = null
   selectedPallet = null
-  time = 2 //60
+  time = 60
   isPlaying = true
 
   setPallet()
@@ -33,15 +33,22 @@ function newGame() {
     if (time <= 0) {
       isPlaying = false
       clearIntervals()
-      saveScore()
+      var score = getScore()
+      var isHigh = saveScore()
+      hideGame()
+      showEnd(score, isHigh)
     }
   }, 1000))
 
 }
 
+function getScore() {
+  return levelIndex * 100 + completion * 100 | 0
+}
+
 function saveScore() {
   var curScore = localStorage.highScore || 0
-  var score = levelIndex * 100 + completion * 100 | 0
+  var score = getScore()
   if (parseInt(curScore) < score) {
     localStorage.highScore = score
     return true

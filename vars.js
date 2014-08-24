@@ -1,3 +1,12 @@
+var endGameTexts = shuffle([
+  'Good one! Now see if you can beat it!',
+  'You Rock! Let\'s do it again!',
+  'Great job! But can you beat it?',
+  'You\'re unstoppable! Keep it up!',
+  'Amazing! I bet you can\'t beat it though...'
+])
+var endGameIndex = 0
+
 var RATIO = window.devicePixelRatio || 1
 var WIDTH = window.innerWidth * RATIO
 var HEIGHT = window.innerHeight * RATIO

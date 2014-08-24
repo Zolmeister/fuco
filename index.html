@@ -349,6 +349,18 @@
   PLAY
 </button>
 </div>
+
+<div class='game-over-screen'>
+  <div class='game-over-text'></div>
+  <br>
+  <div class='score'>
+  </div>
+  <div class='best'>
+  </div>
+  <button class='play-again'>
+    PLAY AGAIN
+  </button>
+</div>
 <script src='./util.js'></script>
 <script src='./vars.js'></script>
 <script src='./binding.js'></script>
@@ -367,8 +379,9 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  visibility: hidden;
 }
-.home-screen {
+.home-screen, .game-over-screen {
   text-align: center;
   position: absolute;
   width: 100%;
@@ -376,17 +389,23 @@ body {
   top: 0;
   left: 0;
 }
+.game-over-screen {
+  display: none;
+}
+.game-over-text {
+
+}
 .logo {
   display: inline-block;
 }
 .flourish {
   display: inline-block;
 }
-.play {
+.play, .play-again {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   display: inline-block;
-  border: 0.05em solid #424242;
+  border: 2px solid #424242;
   border-radius: 0.2em;
   opacity: 0;
   outline: none;
@@ -397,10 +416,10 @@ body {
   -o-transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
   transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
 }
-.play:hover {
+.play:hover, .play-again:hover {
   background: rgba(208,248,206,0.2)
 }
-.play::-moz-focus-inner {
+button::-moz-focus-inner{
   border: 0;
 }
 .high-score {
@@ -410,6 +429,10 @@ body {
 <script>
 
 var $homeScreen = document.getElementsByClassName('home-screen')[0]
+var $endScreen = document.getElementsByClassName('game-over-screen')[0]
+var $endText = document.getElementsByClassName('game-over-text')[0]
+var $score = document.getElementsByClassName('score')[0]
+var $best = document.getElementsByClassName('best')[0]
 var $logo = document.getElementsByClassName('logo')[0]
 $logo.style.marginTop = window.innerHeight / 2 - window.innerHeight / 4
 $logo.style.width = window.innerWidth / 2
@@ -426,8 +449,13 @@ $play.style.width = window.innerWidth / 4
 $play.style.height = window.innerWidth / 7
 $play.style.fontSize = window.innerWidth / 20
 
+var $playAgain = document.getElementsByClassName('play-again')[0]
+
 $play.addEventListener('mousedown', start)
 $play.addEventListener('touchstart', start)
+
+$playAgain.addEventListener('mousedown', start)
+$playAgain.addEventListener('touchstart', start)
 
 var $highScore = document.getElementsByClassName('high-score')[0]
 if (localStorage.highScore) {
@@ -436,17 +464,70 @@ if (localStorage.highScore) {
 }
 
 //DEBUG
-start()
+//start()
+// hideHome()
+// showEnd(10)
+
+function hideHome() {
+  $homeScreen.style.display = 'none'
+}
+
+function randomEndText() {
+  var res = endGameTexts[endGameIndex]
+  endGameIndex++
+  endGameIndex %= endGameTexts.length
+  return res
+}
+
+function showEnd(score, newHigh) {
+  score = score || 0
+  $score.innerHTML = (newHigh ? 'New High Score: ' : 'Score: ') + score
+  $score.style.fontSize = window.innerWidth / 20
+
+  $best.style.fontSize = window.innerWidth / 30
+
+  if (!newHigh) {
+    $best.innerHTML = 'Best: ' + localStorage.highScore || 0
+  }
+
+  $endScreen.style.display = 'block'
+
+  $endText.innerHTML = score < 100 ? 'Are you event trying?' : randomEndText()
+  $endText.style.fontSize = window.innerWidth / 20
+  $endText.style.marginTop = window.innerHeight / 2
+
+  $playAgain.style.marginTop = window.innerHeight / 20
+  $playAgain.style.width = window.innerWidth / 2
+  $playAgain.style.height = window.innerWidth / 7
+  $playAgain.style.fontSize = window.innerWidth / 20
+
+  setTimeout(function () {
+    $playAgain.style.opacity = 1
+  }, 0)
+}
+
+function hideEnd() {
+  $endScreen.style.display = 'none'
+}
 
 function start() {
-  $homeScreen.style.display = 'none'
+  hideHome()
+  hideEnd()
+  showGame()
   newGame()
+}
+
+function showGame() {
+  canv.style.visibility = 'visible'
+}
+
+function hideGame() {
+  canv.style.visibility = 'hidden'
 }
 
 setTimeout(function () {
   $play.style.opacity = 1
 }, 0)
-
 
 
 function simulatePathDrawing(path) {
