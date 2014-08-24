@@ -57,12 +57,15 @@ function Color(r, g, b, a) {
   this.g = g
   this.b = b
   this.a = a
+
+  this.cache = {}
 }
 
-
-// TODO: cache these
 Color.prototype.alpha = function (n) {
-  return new Color(this.r, this.g, this.b, n)
+  if (this.cache[n]) return this.cache[n]
+  var color = new Color(this.r, this.g, this.b, n)
+  this.cache[n] = color
+  return this.cache[n]
 }
 
 Color.prototype.toString = function () {

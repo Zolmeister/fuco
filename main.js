@@ -289,12 +289,12 @@ function draw(point) {
   var angle = angleBetween(lastPoint, currentPoint)
   var region = getRegion()
 
-  var brushSize = SCALE / 24
+  var brushSize = SCALE / 24|0
 
   for (var i = 0; i < dist; i+=5) {
 
-    var x = lastPoint.x + (Math.sin(angle) * i) - WIDTH2
-    var y = lastPoint.y + (Math.cos(angle) * i) - HEIGHT2
+    var x = (lastPoint.x + (Math.sin(angle) * i) - WIDTH2)|0
+    var y = (lastPoint.y + (Math.cos(angle) * i) - HEIGHT2)|0
 
     // Don't color the area with the pallet
     if (y < SCALE / 20 + 5 && y > -SCALE / 20 - 5) continue
@@ -303,31 +303,31 @@ function draw(point) {
     if (isOnCompletionText({x: x, y: y})) continue
     if (isOnTimeText({x: x, y: y})) continue
 
-    var radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
+    var radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
 
     radgrad.addColorStop(0, selectedPallet.color)
     radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5))
     radgrad.addColorStop(1, selectedPallet.color.alpha(0))
 
     ctx.fillStyle = radgrad
-    ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
+    ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
 
     if (y < 0) {
-      y += RADIUS * 1.5 * 2
+      y += RADIUS * 1.5 * 2|0
     } else {
-      y -= RADIUS * 1.5 * 2
+      y -= RADIUS * 1.5 * 2|0
     }
 
     // Don't color the area with the percent
     if (isOnCompletionText({x: x, y: y})) continue
     if (isOnTimeText({x: x, y: y})) continue
 
-    radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
+    radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
     radgrad.addColorStop(0, selectedPallet.color)
     radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5))
     radgrad.addColorStop(1, selectedPallet.color.alpha(0))
     ctx.fillStyle = radgrad
-    ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
+    ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
 
     if (y < 0) {
       // erase inside selected brush clip region
@@ -336,13 +336,13 @@ function draw(point) {
       region.path(ctx)
       ctx.clip()
 
-      radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
+      radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
       radgrad.addColorStop(0, $white)
-      radgrad.addColorStop(0.9, $white.alpha(1))
+      radgrad.addColorStop(0.8, $white.alpha(1))
       radgrad.addColorStop(1, $white.alpha(0))
       ctx.fillStyle = radgrad
-      ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
-      ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
+      ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
+      ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
 
       ctx.restore()
     }
