@@ -8,7 +8,7 @@ function newGame() {
   isDrawing = false
   lastPoint = null
   selectedPallet = null
-  time = 60
+  time = 1//60
   isPlaying = true
 
   setPallet()

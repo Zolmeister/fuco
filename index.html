@@ -479,6 +479,14 @@ button::-moz-focus-inner{
   color: #222;
   text-decoration: none;
 }
+.bird {
+  opacity: 0;
+  -webkit-transition: opacity 1.5s ease-in-out;
+  -moz-transition: opacity 1.5s ease-in-out;
+  -ms-transition: opacity 1.5s ease-in-out;
+  -o-transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
+}
 </style>
 <script>
 var $bird = document.getElementsByClassName('bird')
@@ -487,6 +495,9 @@ while(i--) {
   $bird[i].style.width = window.innerWidth / 20
   $bird[i].style.height = window.innerWidth / 20
 }
+setTimeout(function () {
+  $bird[0].style.opacity = 1
+})
 
 var $tweetButton = document.getElementsByClassName('tweet-button')[0]
 $tweetButton.style.marginTop = window.innerHeight / 30
@@ -573,16 +584,20 @@ function showEnd(score, newHigh) {
 
   $endText.innerHTML = score < 100 ? 'Are you even trying?' : randomEndText()
   $endText.style.fontSize = window.innerWidth / 20
-  $endText.style.marginTop = window.innerHeight / 2
+  $endText.style.marginTop = window.innerHeight / 2 - window.innerHeight / 6
 
   $playAgain.style.marginTop = window.innerHeight / 20
   $playAgain.style.width = window.innerWidth / 2
   $playAgain.style.height = window.innerWidth / 7
   $playAgain.style.fontSize = window.innerWidth / 20
 
+  $bird[1].style.opacity = 1
+
   setTimeout(function () {
     $playAgain.style.opacity = 1
-  }, 0)
+
+    $bird[1].style.opacity = 1
+  },100)
 }
 
 function hideEnd() {
@@ -606,7 +621,7 @@ function hideGame() {
 
 setTimeout(function () {
   $play.style.opacity = 1
-}, 0)
+})
 
 
 function simulatePathDrawing(path) {
