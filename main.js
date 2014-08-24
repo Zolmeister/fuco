@@ -8,7 +8,7 @@ function newGame() {
   isDrawing = false
   lastPoint = null
   selectedPallet = null
-  time = 1//60
+  time = 60
   isPlaying = true
 
   setPallet()
@@ -81,7 +81,11 @@ function paintTime() {
   ctx.fillRect(x, y - fontSize, fontSize * 3, fontSize + 2)
 
   ctx.textAlign = 'left'
-  ctx.fillStyle = '#222'
+  if (time <= 10) {
+    ctx.fillStyle = '#c41411'
+  } else {
+    ctx.fillStyle = '#424242'
+  }
   ctx.font = 'bold ' + fontSize + 'px "Open Sans", sans'
 
   ctx.fillText(seconds, x, y)
