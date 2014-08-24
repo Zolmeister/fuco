@@ -1,70 +1,20 @@
 'use strict'
 
-var WIDTH = window.innerWidth
-var HEIGHT = window.innerHeight
-var SCALE = HEIGHT
-var PI = Math.PI
-var WIDTH2 = ~~(WIDTH / 2)
-var HEIGHT2 = ~~(HEIGHT / 2)
-var RADIUS = ~~(SCALE / 5.6)
-var $white = new Color(249, 249, 249)
-var $bgColor = new Color(158, 158, 158)
-
-var canv = document.getElementById('canv')
-canv.width = WIDTH
-canv.height = HEIGHT
-var ctx = canv.getContext('2d')
-var levels = [
-  [ // 1
-    {
-      color: new Color(0, 255, 0),
-      path: function (ctx) {
-        ctx.arc(0, -RADIUS * 1.5, RADIUS, 0, 2 * Math.PI, false)
-      }
-    }
-  ],
-  [ // 2
-    {
-      color: new Color(0, 255, 0),
-      path: function (ctx) {
-        ctx.arc(0, -RADIUS * 1.5, RADIUS, PI / 2, PI + PI / 2, false)
-      }
-    },
-    {
-      color: new Color(0, 0, 255),
-      path: function (ctx) {
-        ctx.arc(0, -RADIUS * 1.5, RADIUS, PI + PI / 2, 2 * PI + PI / 2, false)
-      }
-    }
-  ]
-]
-
-var isDrawing, lastPoint
-var isColor = true
-var levelIndex = 0
-var completion = 0
-var completionBaseline = 0
-
-var palletSize = SCALE / 20
-var palletBoxSize = palletSize + SCALE / 60
-var palletMargin = SCALE / 60
-var selectedPallet = null
-var pallet = []
-
 ctx.lineJoin = ctx.lineCap = 'round'
 ctx.translate(WIDTH2, HEIGHT2)
 
 setPallet()
 repaint()
 
-// completion of 85%+ should trigger next level
+// completion of 80%+ should trigger next level
 setInterval(function () {
   completion = getCompletion() / completionBaseline
   paintCompletion()
-  if (completion >= 0.85) {
+  // DEBUG
+  if (completion >= 0.80) {
     levelIndex++
     repaint()
-    alert('win!')
+    //alert('win!')
   }
 }, 500)
 
@@ -150,12 +100,12 @@ function paintLevel() {
   var level = levels[levelIndex]
 
   ctx.beginPath()
-  ctx.arc(0, -RADIUS * 1.5, RADIUS, 0, 2 * Math.PI, false)
+  ctx.arc(0, -RADIUS * 1.5, RADIUS, 0, 2 * PI, false)
   ctx.fillStyle = $white
   ctx.fill()
 
   ctx.beginPath()
-  ctx.arc(0, RADIUS * 1.5, RADIUS, 0, 2 * Math.PI, false)
+  ctx.arc(0, RADIUS * 1.5, RADIUS, 0, 2 * PI, false)
   ctx.fillStyle = $white
   ctx.fill()
 
@@ -169,13 +119,17 @@ function paintLevel() {
     ctx.moveTo(x, y)
     poly.path(ctx, x, y)
     ctx.fill()
+
+    // DEBUG
+    ctx.strokeStyle = '#000'
+    ctx.stroke()
   }
 
   if (levelIndex === 0) {
     ctx.fillStyle = '#000'
-    ctx.font = SCALE / 16 + 'px "Open Sans"'
+    ctx.font = SCALE / 25 + 'px "Open Sans"'
     ctx.textAlign = 'center'
-    ctx.fillText('Color Me!', 0, RADIUS * 1.5)
+    ctx.fillText('Color Me!', 0, RADIUS * 1.5 + SCALE / 25 / 3)
   }
 }
 
@@ -318,7 +272,11 @@ function draw(point) {
     ctx.fillStyle = radgrad
     ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
 
-    y = -y
+    if (y < 0) {
+      y += RADIUS * 1.5 * 2
+    } else {
+      y -= RADIUS * 1.5 * 2
+    }
 
     // Don't color the area with the percent
     if (isOnCompletionText({x: x, y: y})) continue
