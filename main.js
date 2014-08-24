@@ -1,10 +1,12 @@
 'use strict'
 
-ctx.lineJoin = ctx.lineCap = 'round'
-ctx.translate(WIDTH2, HEIGHT2)
-
 function newGame() {
-  levelIndex = 6
+  var i = intervals.length
+  while(i--) {
+    window.clearInterval(intervals[i])
+  }
+  intervals = []
+  levelIndex = 0
   completion = 0
   isDrawing = false
   lastPoint = null
@@ -15,7 +17,7 @@ function newGame() {
   repaint()
 
   // completion of 80%+ should trigger next level
-  setInterval(function () {
+  intervals.push(setInterval(function () {
     completion = getCompletion() / completionBaseline
     paintCompletion()
     if (completion >= 0.80) {
@@ -24,12 +26,12 @@ function newGame() {
       repaint()
       //alert('win!')
     }
-  }, 500)
+  }, 500))
 
-  setInterval(function () {
+  intervals.push(setInterval(function () {
     time--
     paintTime()
-  }, 1000)
+  }, 1000))
 
 }
 newGame()

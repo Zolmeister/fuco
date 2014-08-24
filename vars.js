@@ -14,6 +14,9 @@ var canv = document.getElementById('canv')
 canv.width = WIDTH
 canv.height = HEIGHT
 var ctx = canv.getContext('2d')
+ctx.lineJoin = ctx.lineCap = 'round'
+ctx.translate(WIDTH2, HEIGHT2)
+
 
 var completionBaseline = 0
 
@@ -22,7 +25,7 @@ var palletBoxSize = palletSize + SCALE / 60
 var palletMargin = SCALE / 60
 var pallet = []
 
-
+var intervals = []
 var completion = 0
 var isDrawing = false
 var lastPoint = null
