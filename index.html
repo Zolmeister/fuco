@@ -342,6 +342,9 @@
   </g>
 </svg>
 <br>
+<span class='high-score'>
+</span>
+<br>
 <button class='play'>
   PLAY
 </button>
@@ -400,8 +403,12 @@ body {
 .play::-moz-focus-inner {
   border: 0;
 }
+.high-score {
+
+}
 </style>
 <script>
+
 var $homeScreen = document.getElementsByClassName('home-screen')[0]
 var $logo = document.getElementsByClassName('logo')[0]
 $logo.style.marginTop = window.innerHeight / 2 - window.innerHeight / 4
@@ -421,6 +428,12 @@ $play.style.fontSize = window.innerWidth / 20
 
 $play.addEventListener('mousedown', start)
 $play.addEventListener('touchstart', start)
+
+var $highScore = document.getElementsByClassName('high-score')[0]
+if (localStorage.highScore) {
+  $highScore.innerHTML = 'best: ' + localStorage.highScore
+  $highScore.style.fontSize = window.innerWidth / 30
+}
 
 function start() {
   $homeScreen.style.display = 'none'

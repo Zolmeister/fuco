@@ -2,16 +2,13 @@
 
 function newGame() {
   var i = intervals.length
-  while(i--) {
-    window.clearInterval(intervals[i])
-  }
-  intervals = []
+  clearIntervals()
   levelIndex = 0
   completion = 0
   isDrawing = false
   lastPoint = null
   selectedPallet = null
-  time = 60
+  time = 2 //60
   isPlaying = true
 
   setPallet()
@@ -32,8 +29,32 @@ function newGame() {
   intervals.push(setInterval(function () {
     time--
     paintTime()
+
+    if (time <= 0) {
+      isPlaying = false
+      clearIntervals()
+      saveScore()
+    }
   }, 1000))
 
+}
+
+function saveScore() {
+  var curScore = localStorage.highScore || 0
+  var score = levelIndex * 100 + completion * 100 | 0
+  if (parseInt(curScore) < score) {
+    localStorage.highScore = score
+    return true
+  }
+  return false
+}
+
+function clearIntervals() {
+  var i = intervals.length
+  while(i--) {
+    window.clearInterval(intervals[i])
+  }
+  intervals = []
 }
 
 function paintBg() {
