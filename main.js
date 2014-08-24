@@ -99,7 +99,23 @@ function repaint() {
   completionBaseline = getCompletion(true)
   paintCompletion()
   paintTime()
+  paintLines()
   isDrawing = false
+}
+
+function paintLines() {
+  ctx.strokeStyle = $white
+  ctx.lineWidth = 2
+
+  ctx.beginPath()
+  ctx.moveTo(-WIDTH2, 0)
+  ctx.lineTo(-WIDTH2 / 2, 0)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.moveTo(WIDTH2, 0)
+  ctx.lineTo(WIDTH2 - WIDTH2 / 2, 0)
+  ctx.stroke()
 }
 
 function paintCompletion() {
