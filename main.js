@@ -1,69 +1,89 @@
+'use strict'
+
 var WIDTH = window.innerWidth
 var HEIGHT = window.innerHeight
 var SCALE = HEIGHT
-WIDTH2 = ~~(WIDTH / 2)
-HEIGHT2 = ~~(HEIGHT / 2)
-var RADIUS = SCALE / 5.6
+var PI = Math.PI
+var WIDTH2 = ~~(WIDTH / 2)
+var HEIGHT2 = ~~(HEIGHT / 2)
+var RADIUS = ~~(SCALE / 5.6)
 var $white = new Color(249, 249, 249)
 var $bgColor = new Color(158, 158, 158)
 
 var canv = document.getElementById('canv')
 canv.width = WIDTH
 canv.height = HEIGHT
-
-var isDrawing, lastPoint
-var isColor = true
-
 var ctx = canv.getContext('2d')
-ctx.lineJoin = ctx.lineCap = 'round'
-ctx.translate(WIDTH2, HEIGHT2)
-
-function paintBg() {
-  ctx.fillStyle = $bgColor
-  ctx.fillRect(-WIDTH2, -HEIGHT2, WIDTH, HEIGHT)
-}
-paintBg()
-
-var levelIndex = 0
 var levels = [
-  [
+  [ // 1
     {
       color: new Color(0, 255, 0),
       path: function (ctx) {
         ctx.arc(0, -RADIUS * 1.5, RADIUS, 0, 2 * Math.PI, false)
       }
     }
+  ],
+  [ // 2
+    {
+      color: new Color(0, 255, 0),
+      path: function (ctx) {
+        ctx.arc(0, -RADIUS * 1.5, RADIUS, PI / 2, PI + PI / 2, false)
+      }
+    },
+    {
+      color: new Color(0, 0, 255),
+      path: function (ctx) {
+        ctx.arc(0, -RADIUS * 1.5, RADIUS, PI + PI / 2, 2 * PI + PI / 2, false)
+      }
+    }
   ]
 ]
 
-var brush = levels[0][0].color
+var isDrawing, lastPoint
+var isColor = true
+var levelIndex = 0
 var completion = 0
+var completionBaseline = 0
 
-paintLevel()
-var completionBaseline = getCompletion(true)
+var palletSize = SCALE / 20
+var palletBoxSize = palletSize + SCALE / 60
+var palletMargin = SCALE / 60
+var selectedPallet = null
+var pallet = []
 
+ctx.lineJoin = ctx.lineCap = 'round'
+ctx.translate(WIDTH2, HEIGHT2)
 
-function repaint() {
-  paintBg()
-  paintLevel()
-  paintPallet()
-  paintCompletion()
-  isDrawing = false
-}
-
+setPallet()
 repaint()
 
 // completion of 85%+ should trigger next level
-
 setInterval(function () {
   completion = getCompletion() / completionBaseline
   paintCompletion()
   if (completion >= 0.85) {
+    levelIndex++
     repaint()
     alert('win!')
   }
 }, 500)
 
+function paintBg() {
+  ctx.fillStyle = $bgColor
+  ctx.fillRect(-WIDTH2, -HEIGHT2, WIDTH, HEIGHT)
+}
+
+// this clears user edits!
+function repaint() {
+  paintBg()
+  paintLevel()
+  selectedPallet = null
+  setPallet()
+  paintPallet()
+  completionBaseline = getCompletion(true)
+  paintCompletion()
+  isDrawing = false
+}
 
 function paintCompletion() {
   var fontSize = SCALE / 30
@@ -160,48 +180,95 @@ function paintLevel() {
 }
 
 
-function paintPallet() {
+
+function setPallet() {
+  var colors = []
   var level = levels[levelIndex]
-  var pallet = []
 
   // _.pick level, 'color'
   var i = level.length
   while (i--) {
     var poly = level[i]
-    pallet.push(poly.color)
+    colors.push(poly.color)
   }
-  i = pallet.length
+  i = colors.length
 
-  // _.uniq pallet
+  // _.uniq colors
   var used = {}
   while (i--) {
-    var color = pallet[i]
+    var color = colors[i]
     if (used[color]) {
-      pallet.splice(i, 1)
+      colors.splice(i, 1)
     }
     used[color] = true
   }
 
-  i = pallet.length
-  while(i--) {
-    var size = SCALE / 20
+  i = colors.length
 
-    if (pallet[i].equals(brush)) {
-      ctx.fillStyle = $white
-      size += SCALE / 60
-      ctx.fillRect(-size/2, -size/2, size, size)
-      size -= SCALE / 60
+  // clear pallet
+  pallet = []
+  var y = 0
+  var halfColors = ~~(colors.length / 2)
+  var x = -palletBoxSize * halfColors - palletMargin * halfColors
+  if (colors.length % 2 === 0) {
+    x += palletBoxSize / 2 + palletMargin / 2
+  }
+
+  while(i--) {
+    var color = colors[i]
+    var pal = {
+      color: color,
+      x: x,
+      y: y
     }
 
-    ctx.fillStyle = pallet[i]
+    pallet.push(pal)
+
+    x += palletBoxSize + palletMargin
+  }
+
+  if (!selectedPallet) {
+    selectedPallet = pallet[0]
+  }
+
+}
+
+function paintPallet() {
+  var i = pallet.length
+  var boxSize = palletBoxSize
+  var size = palletSize
+
+  ctx.fillStyle = $bgColor
+  ctx.fillRect(-WIDTH2, -boxSize / 2 - 1, WIDTH, boxSize + 2)
+  while(i--) {
+    if (pallet[i] === selectedPallet) {
+      ctx.fillStyle = $white
+      ctx.fillRect(pallet[i].x-boxSize/2, -boxSize/2, boxSize, boxSize)
+    }
+
+    ctx.fillStyle = pallet[i].color
     ctx.lineWidth = 10
-    roundRect(ctx, 0, 0, size, size, 5, true, false)
+    roundRect(ctx, pallet[i].x, 0, size, size, 5, true, false)
+  }
+}
+
+function selectPallet(point) {
+  var i = pallet.length
+  while(i--) {
+    var boxPoint = {x: pallet[i].x + WIDTH2, y: pallet[i].y + HEIGHT2}
+    if (distanceBetween(boxPoint, point) < palletBoxSize / 2 ) {
+      selectedPallet = pallet[i]
+      paintPallet()
+      break
+    }
   }
 }
 
 function drawStart(point) {
   isDrawing = true
   lastPoint = point
+
+  selectPallet(point)
 }
 
 function drawEnd() {
@@ -213,7 +280,7 @@ function getRegion() {
   var i = level.length
   while(i--) {
     var poly = level[i]
-    if (poly.color.equals(brush)) {
+    if (poly.color.equals(selectedPallet.color)) {
       return poly
     }
   }
@@ -233,8 +300,8 @@ function draw(point) {
 
   for (var i = 0; i < dist; i+=5) {
 
-    x = lastPoint.x + (Math.sin(angle) * i) - WIDTH2
-    y = lastPoint.y + (Math.cos(angle) * i) - HEIGHT2
+    var x = lastPoint.x + (Math.sin(angle) * i) - WIDTH2
+    var y = lastPoint.y + (Math.cos(angle) * i) - HEIGHT2
 
     // Don't color the area with the pallet
     if (y < SCALE / 20 + 5 && y > -SCALE / 20 - 5) continue
@@ -244,9 +311,9 @@ function draw(point) {
 
     var radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
 
-    radgrad.addColorStop(0, brush)
-    radgrad.addColorStop(0.5, brush.alpha(0.5))
-    radgrad.addColorStop(1, brush.alpha(0))
+    radgrad.addColorStop(0, selectedPallet.color)
+    radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5))
+    radgrad.addColorStop(1, selectedPallet.color.alpha(0))
 
     ctx.fillStyle = radgrad
     ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
@@ -257,9 +324,9 @@ function draw(point) {
     if (isOnCompletionText({x: x, y: y})) continue
 
     radgrad = ctx.createRadialGradient(x,y,brushSize/4,x,y,brushSize/2)
-    radgrad.addColorStop(0, brush)
-    radgrad.addColorStop(0.5, brush.alpha(0.5))
-    radgrad.addColorStop(1, brush.alpha(0))
+    radgrad.addColorStop(0, selectedPallet.color)
+    radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5))
+    radgrad.addColorStop(1, selectedPallet.color.alpha(0))
     ctx.fillStyle = radgrad
     ctx.fillRect(x-brushSize/2, y-brushSize/2, brushSize, brushSize)
 
