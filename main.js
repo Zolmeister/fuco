@@ -12,6 +12,7 @@ function newGame() {
   lastPoint = null
   selectedPallet = null
   time = 60
+  isPlaying = true
 
   setPallet()
   repaint()
@@ -34,7 +35,6 @@ function newGame() {
   }, 1000))
 
 }
-newGame()
 
 function paintBg() {
   ctx.fillStyle = $bgColor
@@ -54,7 +54,7 @@ function paintTime() {
 
   ctx.textAlign = 'left'
   ctx.fillStyle = '#222'
-  ctx.font = 'bold ' + fontSize + 'px "Open Sans"'
+  ctx.font = 'bold ' + fontSize + 'px "Open Sans", sans'
 
   ctx.fillText(seconds, x, y)
 }
@@ -93,7 +93,7 @@ function paintCompletion() {
 
   ctx.textAlign = 'left'
   ctx.fillStyle = '#222'
-  ctx.font = 'bold ' + fontSize + 'px "Open Sans"'
+  ctx.font = 'bold ' + fontSize + 'px "Open Sans", sans'
 
   ctx.fillText(percent, x, y)
 }
@@ -169,7 +169,7 @@ function paintLevel() {
 
   if (levelIndex === 0) {
     ctx.fillStyle = '#000'
-    ctx.font = SCALE / 25 + 'px "Open Sans"'
+    ctx.font = SCALE / 25 + 'px "Open Sans", sans'
     ctx.textAlign = 'center'
     ctx.fillText('Color Me!', 0, RADIUS * 1.5 + SCALE / 25 / 3)
   }

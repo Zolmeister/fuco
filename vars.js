@@ -32,3 +32,4 @@ var lastPoint = null
 var selectedPallet = null
 var time = 60
 var levelIndex = 0
+var isPlaying = false

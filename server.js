@@ -17,7 +17,8 @@ var server = flo(
        // All JS files in `sourceDirToWatch` and subdirectories
       '**/*.js',
        // All CSS files in `sourceDirToWatch` and subdirectories
-      '**/*.css'
+      '**/*.css',
+      '**/*.html'
     ]
   },
   function resolver(filepath, callback) {
