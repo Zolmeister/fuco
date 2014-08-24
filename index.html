@@ -564,7 +564,8 @@ if (isFirstTime) {
 localStorage.hasVisited = true
 
 var lastTweet = localStorage.lastTweet || '0'
-
+var CWIDTH = Math.min(window.innerWidth, window.innerHeight)
+var CHEIGHT = CWIDTH
 
 function grantCrystals() {
   localStorage.lastTweet = Date.now()
@@ -596,8 +597,8 @@ function notTweetedToday(timeStr) {
 var $crystals = document.getElementsByClassName('crystal')
 var i = $crystals.length
 while (i--) {
-  $crystals[i].style.width = window.innerWidth / 30
-  $crystals[i].style.height = window.innerWidth / 30
+  $crystals[i].style.width = CWIDTH / 30
+  $crystals[i].style.height = CWIDTH / 30
 }
 
 var $crystalText = document.getElementsByClassName('crystal-text')[0]
@@ -607,34 +608,34 @@ if (!isFirstTime && notTweetedToday(lastTweet)) {
   $crystalText2.style.display = 'inline-block'
 }
 
-$crystalText2.style.fontSize = $crystalText.style.fontSize = window.innerWidth / 30
+$crystalText2.style.fontSize = $crystalText.style.fontSize = CWIDTH / 30
 
 var $bird = document.getElementsByClassName('bird')
 var i = $bird.length
 while(i--) {
-  $bird[i].style.width = window.innerWidth / 20
-  $bird[i].style.height = window.innerWidth / 20
+  $bird[i].style.width = CWIDTH / 20
+  $bird[i].style.height = CWIDTH / 20
 }
 setTimeout(function () {
   $bird[0].style.opacity = 1
 })
 
 var $tweetBubble = document.getElementsByClassName('tweet-bubble')[0]
-$tweetBubble.style.width = window.innerWidth / 1.5
-$tweetBubble.style.marginLeft = -window.innerWidth / 3 - window.innerWidth / 25
-$tweetBubble.style.marginTop = window.innerHeight / 40
-$tweetBubble.style.fontSize = window.innerWidth / 25
-$tweetBubble.style.padding = window.innerWidth / 25
+$tweetBubble.style.width = CWIDTH / 1.5
+$tweetBubble.style.marginLeft = -CWIDTH / 3 - CWIDTH / 25
+$tweetBubble.style.marginTop = CHEIGHT / 40
+$tweetBubble.style.fontSize = CWIDTH / 25
+$tweetBubble.style.padding = CWIDTH / 25
 
 var $tweetButton = document.getElementsByClassName('tweet-button')[0]
-$tweetButton.style.marginTop = window.innerHeight / 30
+$tweetButton.style.marginTop = CHEIGHT / 30
 
 var $tweetScore = document.getElementsByClassName('tweet-score')[0]
-$tweetScore.style.marginTop = window.innerHeight / 30
-$tweetScore.style.fontSize = window.innerHeight / 60
+$tweetScore.style.marginTop = CHEIGHT / 30
+$tweetScore.style.fontSize = CHEIGHT / 60
 
 var $tweetButton = document.getElementsByClassName('tweet-button')[0]
-$tweetButton.style.marginTop = window.innerHeight / 30
+$tweetButton.style.marginTop = CHEIGHT / 30
 
 var $homeScreen = document.getElementsByClassName('home-screen')[0]
 var $endScreen = document.getElementsByClassName('game-over-screen')[0]
@@ -642,20 +643,20 @@ var $endText = document.getElementsByClassName('game-over-text')[0]
 var $score = document.getElementsByClassName('score')[0]
 var $best = document.getElementsByClassName('best')[0]
 var $logo = document.getElementsByClassName('logo')[0]
-$logo.style.marginTop = window.innerHeight / 2 - window.innerHeight / 4
-$logo.style.width = window.innerWidth / 2
-$logo.style.height = window.innerWidth / 4
+$logo.style.marginTop = CHEIGHT / 2 - CHEIGHT / 3
+$logo.style.width = CWIDTH / 2
+$logo.style.height = CWIDTH / 4
 
 var $flourish = document.getElementsByClassName('flourish')[0]
-$flourish.style.marginTop = -window.innerHeight / 20
-$flourish.style.width = window.innerWidth / 3
-$flourish.style.height = window.innerWidth / 5
+$flourish.style.marginTop = -CHEIGHT / 20
+$flourish.style.width = CWIDTH / 3
+$flourish.style.height = CWIDTH / 5
 
 var $play = document.getElementsByClassName('play')[0]
-$play.style.marginTop = window.innerHeight / 20
-$play.style.width = window.innerWidth / 4
-$play.style.height = window.innerWidth / 7
-$play.style.fontSize = window.innerWidth / 20
+$play.style.marginTop = CHEIGHT / 20
+$play.style.width = CWIDTH / 4
+$play.style.height = CWIDTH / 7
+$play.style.fontSize = CWIDTH / 20
 
 var $playAgain = document.getElementsByClassName('play-again')[0]
 
@@ -668,7 +669,7 @@ $playAgain.addEventListener('touchstart', start)
 var $highScore = document.getElementsByClassName('high-score')[0]
 if (localStorage.highScore) {
   $highScore.innerHTML = 'best: ' + localStorage.highScore
-  $highScore.style.fontSize = window.innerWidth / 30
+  $highScore.style.fontSize = CWIDTH / 30
 }
 
 var $paths = document.getElementsByTagName('path')
@@ -697,9 +698,9 @@ function randomEndText() {
 function showEnd(score, newHigh) {
   score = score || 0
   $score.innerHTML = (newHigh ? 'New High Score: ' : 'Score: ') + score
-  $score.style.fontSize = window.innerWidth / 20
+  $score.style.fontSize = CWIDTH / 20
 
-  $best.style.fontSize = window.innerWidth / 30
+  $best.style.fontSize = CWIDTH / 30
 
   $tweetScore.href = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Ffuco.zolmeister.com&text=I got ' + score + ' points in FUCO, YEAH!!!&hashtags=fuco'
 
@@ -710,13 +711,13 @@ function showEnd(score, newHigh) {
   $endScreen.style.display = 'block'
 
   $endText.innerHTML = score < 100 ? 'Are you even trying?' : randomEndText()
-  $endText.style.fontSize = window.innerWidth / 20
-  $endText.style.marginTop = window.innerHeight / 2 - window.innerHeight / 6
+  $endText.style.fontSize = CWIDTH / 20
+  $endText.style.marginTop = CHEIGHT / 2 - CHEIGHT / 6
 
-  $playAgain.style.marginTop = window.innerHeight / 20
-  $playAgain.style.width = window.innerWidth / 2
-  $playAgain.style.height = window.innerWidth / 7
-  $playAgain.style.fontSize = window.innerWidth / 20
+  $playAgain.style.marginTop = CHEIGHT / 20
+  $playAgain.style.width = CWIDTH / 2
+  $playAgain.style.height = CWIDTH / 7
+  $playAgain.style.fontSize = CWIDTH / 20
 
   $bird[1].style.opacity = 1
 
