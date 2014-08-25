@@ -175,7 +175,7 @@ var levels = [
       }
     }
   ],
-  [ // 7
+  [ // 6
     {
       color: new Color(255,152,0),
       path: function (ctx) {
@@ -190,7 +190,7 @@ var levels = [
       }
     }
   ],
-  [ // 8
+  [ // 7
     {
       color: new Color(255,152,0),
       path: function (ctx) {
@@ -211,6 +211,68 @@ var levels = [
         ctx.arc(0, cy, RADIUS / 3, 0, TAO)
       }
     }
+  ],
+  [ // 8
+    {
+      color: new Color(37,155,36),
+      path: function (ctx) {
+        var a1 = PI / 2 + PI / 4
+        var a2 = PI / 2 + PI / 4 * 2
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, false)
+
+        var a3 = -PI / 2 + PI / 4 * 2
+        var a4 = -PI / 2 + PI / 4
+        ctx.arc(0, cy, RADIUS, a3, a4, true)
+      }
+    },
+    {
+      color: new Color(86,119,252),
+      path: function (ctx) {
+        var a1 = PI / 2
+        var a2 = PI / 2 + PI / 4
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, false)
+
+        var a3 = -PI / 2 + PI / 4
+        var a4 = -PI / 2
+        ctx.arc(0, cy, RADIUS, a3, a4, true)
+      }
+    },
+    {
+      color: new Color(255,152,0),
+      path: function (ctx) {
+        var a1 = -PI / 2
+        var a2 = -PI / 2 - PI / 4
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, true)
+
+        var a3 = PI / 2 - PI / 4
+        var a4 = PI / 2
+        ctx.arc(0, cy, RADIUS, a3, a4, false)
+      }
+    },
+    {
+      color: new Color(66,66,66),
+      path: function (ctx) {
+        var a1 = PI / 2 + PI / 4 * 2
+        var a2 = PI / 2 + PI / 4 * 3
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, false)
+
+        var a3 = -PI / 2 + PI / 4 * 3
+        var a4 = -PI / 2 + PI / 4 * 2
+        ctx.arc(0, cy, RADIUS, a3, a4, true)
+      }
+    },
   ],
   [ // 9
     {
