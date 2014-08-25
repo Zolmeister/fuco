@@ -276,6 +276,98 @@ var levels = [
   ],
   [ // 9
     {
+      color: new Color(66,189,65),
+      path: function (ctx) {
+        var a1 = -PI / 2 - PI / 6
+        var a2 = -PI / 2 - PI / 2
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, true)
+        ctx.lineTo(-RADIUS/2, cy)
+      }
+    },
+    {
+      color: new Color(86,119,252),
+      path: function (ctx) {
+        var a1 = TAO / 6 * 2
+        var a2 = TAO / 6 * 3
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+
+        ctx.lineTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2)
+        ctx.lineTo(0, cy)
+      }
+    },
+    {
+      color: new Color(255,241,118),
+      path: function (ctx) {
+        var a1 = TAO / 6
+        var a2 = TAO / 6 * 2
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+
+        ctx.lineTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2)
+        ctx.lineTo(0, cy)
+      }
+    },
+    {
+      color: new Color(86,119,252),
+      path: function (ctx) {
+        var a1 = 0
+        var a2 = TAO / 6
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+
+        ctx.lineTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2)
+        ctx.lineTo(0, cy)
+      }
+    },
+    {
+      color: new Color(255,183,77),
+      path: function (ctx) {
+        var a1 = -PI / 2
+        var a2 = -PI / 2 - PI / 6
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, true)
+        ctx.lineTo(-RADIUS/2, cy)
+        ctx.lineTo(0, cy)
+      }
+    },
+    {
+      color: new Color(243,108,96),
+      path: function (ctx) {
+        var a1 = -PI / 2
+        var a2 = -PI / 2 + PI / 6
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, false)
+        ctx.lineTo(RADIUS/2, cy)
+        ctx.lineTo(0, cy)
+      }
+    },
+    {
+      color: new Color(66,189,65),
+      path: function (ctx) {
+        var a1 = -PI / 2 + PI / 6
+        var a2 = -PI / 2 + PI / 2
+        var x = RADIUS * Math.cos(a1)
+        var y = cy + RADIUS * Math.sin(a1)
+        ctx.moveTo(x, y)
+        ctx.arc(0, cy, RADIUS, a1, a2, false)
+        ctx.lineTo(RADIUS/2, cy)
+      }
+    },
+
+  ],
+  [ // 10
+    {
       color: new Color(0,102,255),
       path: function (ctx) {
         // 17.777

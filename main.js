@@ -170,12 +170,12 @@ function paintLines() {
 
   ctx.beginPath()
   ctx.moveTo(-WIDTH2, 0)
-  ctx.lineTo(-WIDTH2 / 2, 0)
+  ctx.lineTo(-WIDTH2 + WIDTH2 / 4, 0)
   ctx.stroke()
 
   ctx.beginPath()
   ctx.moveTo(WIDTH2, 0)
-  ctx.lineTo(WIDTH2 - WIDTH2 / 2, 0)
+  ctx.lineTo(WIDTH2 - WIDTH2 / 4, 0)
   ctx.stroke()
 }
 
