@@ -83,6 +83,8 @@ setTimeout(function () {
   $bird[0].style.opacity = 1
 })
 
+// This is hard coded because it crashes android if you calculate it
+var pathLengths = [114.63752746582031, 135.55255126953125, 115.6463851928711, 147.36000061035156, 3442.748291015625, 1806.394775390625, 8450.58984375, 8450.58984375]
 window.addEventListener('load', function () {
   var isFirstTime = !localStorage.hasVisited
   if (isFirstTime) {
@@ -100,8 +102,12 @@ window.addEventListener('load', function () {
 
   var i = $paths.length
   while(i--) {
-    simulatePathDrawing($paths[i])
+    // This line will crash android browser clients
+    // pathLengths[i] = $paths[i].getTotalLength()
+    simulatePathDrawing($paths[i], i)
   }
+
+  document.body.style.visibility = 'visible'
 })
 
 //DEBUG
@@ -200,9 +206,9 @@ function hideGame() {
   canv.style.visibility = 'hidden'
 }
 
-function simulatePathDrawing(path) {
+function simulatePathDrawing(path, i) {
   //var path = document.querySelector('.squiggle-animated path');
-  var length = path.getTotalLength()
+  var length = pathLengths[i]
   // Clear any previous transition
   path.style.transition = path.style.WebkitTransition = 'none';
   // Set up the starting positions

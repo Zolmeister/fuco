@@ -1,8 +1,12 @@
+html {
+  background: rgb(158, 158, 158);
+}
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   background: rgb(158, 158, 158);
+  visibility: hidden;
 }
 #canv {
   width: 100%;
