@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  background: rgb(158, 158, 158);
+}
+#canv {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -ms-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+.slide-out {
+  -webkit-transform: translate(-200%, 0);
+  -moz-transform: translate(-200%, 0);
+  -ms-transform: translate(-200%, 0);
+  -o-transform: translate(-200%, 0);
+  transform: translate(-200%, 0);
+}
+.tweet-button {
+  vertical-align: middle;
+  text-align: middle;
+}
+.tweet-button {
+  color: #212121;
+  text-decoration: none;
+}
+.crystal-text, .crystal-text2 {
+  display: none;
+}
+.crystal {
+  width: 20px;
+  height: 20px;
+}
+.tweet-bubble {
+  position: absolute;
+  left: 50%;
+  background: #4fc3f7;
+  border-radius: 5px;
+  text-align: center;
+  display: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -ms-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+}
+.home-screen, .game-over-screen {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.game-over-screen {
+  display: none;
+}
+.game-over-text {
+
+}
+.logo {
+  display: inline-block;
+}
+.flourish {
+  display: inline-block;
+}
+.play, .play-again {
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  display: inline-block;
+  border: 2px solid #424242;
+  border-radius: 0.2em;
+  opacity: 0;
+  outline: none;
+  background: none;
+  -webkit-transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
+  -moz-transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
+  -ms-transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
+  -o-transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
+  transition: opacity 1.5s ease-in-out, background-color 0.25s ease-in-out;
+}
+.play:hover, .play-again:hover {
+  background: rgba(208,248,206,0.2)
+}
+button::-moz-focus-inner{
+  border: 0;
+}
+.high-score {
+
+}
+.tweet-button, .tweet-score {
+  display: inline-block;
+  padding: 20px;
+  border-radius: 5px;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  -moz-transition: background-color 0.25s ease-in-out;
+  -ms-transition: background-color 0.25s ease-in-out;
+  -o-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+}
+.tweet-button:hover, .tweet-score:hover {
+  background: rgba(0,172,237,0.2)
+}
+.tweet-score {
+  color: #222;
+  text-decoration: none;
+}
+.bird {
+  opacity: 0;
+  -webkit-transition: opacity 1.5s ease-in-out;
+  -moz-transition: opacity 1.5s ease-in-out;
+  -ms-transition: opacity 1.5s ease-in-out;
+  -o-transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
+}
