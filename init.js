@@ -144,7 +144,7 @@ function showEnd(score, newHigh) {
 
   $best.style.fontSize = CWIDTH / 30 + 'px'
 
-  $tweetScore.href = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Ffuco.zolmeister.com&text=I got ' + score + ' points in FUCO, YEAH!!!&hashtags=fuco'
+  $tweetScore.href = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Ffuco.zolmeister.com&amp;text=I%20got%20' + score + '%20points%20in%20FUCO,%20YEAH!!!&amp;hashtags=fuco'
 
   if (!newHigh) {
     $best.innerHTML = 'Best: ' + localStorage.highScore || 0
