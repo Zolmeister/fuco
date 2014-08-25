@@ -21,7 +21,7 @@ var $bgColor = new Color(158, 158, 158)
 
 var crystals = parseInt(localStorage.crystals || '0', 10)
 var crystalImg = new Image()
-crystalImg.src = './crystal.svg'
+crystalImg.src = 'images/crystal.svg'
 var crystal = {
   x: WIDTH2 - SCALE / 20 - SCALE / 40,
   y: -HEIGHT2 + SCALE / 20 + SCALE / 40,
