@@ -76,7 +76,7 @@ function clearIntervals() {
 }
 
 function paintBg() {
-  ctx.fillStyle = $bgColor
+  ctx.fillStyle = $bgColor.toString()
   ctx.fillRect(-WIDTH2, -HEIGHT2, WIDTH, HEIGHT)
 }
 
@@ -88,7 +88,7 @@ function paintTime() {
   var y = -HEIGHT2 + fontSize + padding
 
 
-  ctx.fillStyle = $bgColor
+  ctx.fillStyle = $bgColor.toString()
   ctx.fillRect(x, y - fontSize, fontSize * 3, fontSize + 2)
 
   ctx.textAlign = 'left'
@@ -129,7 +129,7 @@ function repaint() {
 }
 
 function paintCrystals() {
-  ctx.fillStyle = $bgColor
+  ctx.fillStyle = $bgColor.toString()
   ctx.fillRect(crystal.x, crystal.y, crystal.size, crystal.size)
   if (!(crystals > 0) || hasUsedCrystal)
     ctx.globalAlpha = 0.3
@@ -165,7 +165,7 @@ function useCrystal(point) {
 }
 
 function paintLines() {
-  ctx.strokeStyle = $white
+  ctx.strokeStyle = $white.toString()
   ctx.lineWidth = 2
 
   ctx.beginPath()
@@ -186,7 +186,7 @@ function paintCompletion() {
   var y = -HEIGHT2 + fontSize + padding
   var percent = ~~(Math.max(0, completion - 0.02) * 100) + '%'
 
-  ctx.fillStyle = $bgColor
+  ctx.fillStyle = $bgColor.toString()
   ctx.fillRect(x, y - fontSize, fontSize * 2, fontSize + 2)
 
   ctx.textAlign = 'left'
@@ -245,18 +245,18 @@ function paintLevel() {
 
   ctx.beginPath()
   ctx.arc(0, -RADIUS * 1.5, RADIUS, 0, 2 * PI, false)
-  ctx.fillStyle = $white
+  ctx.fillStyle = $white.toString()
   ctx.fill()
 
   ctx.beginPath()
   ctx.arc(0, RADIUS * 1.5, RADIUS, 0, 2 * PI, false)
-  ctx.fillStyle = $white
+  ctx.fillStyle = $white.toString()
   ctx.fill()
 
   var i = level.length
   while (i--) {
     var poly = level[i]
-    ctx.fillStyle = poly.color
+    ctx.fillStyle = poly.color.toString()
     ctx.beginPath()
     var x = 0
     var y = -RADIUS * 1.5
@@ -332,15 +332,15 @@ function paintPallet() {
   var boxSize = palletBoxSize
   var size = palletSize
 
-  ctx.fillStyle = $bgColor
+  ctx.fillStyle = $bgColor.toString()
   ctx.fillRect(-WIDTH2, -boxSize / 2 - 1, WIDTH, boxSize + 2)
   while(i--) {
     if (pallet[i] === selectedPallet) {
-      ctx.fillStyle = $white
+      ctx.fillStyle = $white.toString()
       ctx.fillRect(pallet[i].x-boxSize/2, -boxSize/2, boxSize, boxSize)
     }
 
-    ctx.fillStyle = pallet[i].color
+    ctx.fillStyle = pallet[i].color.toString()
     roundRect(ctx, pallet[i].x, 0, size, size, SCALE/150, true, false)
   }
 }
@@ -407,9 +407,9 @@ function draw(point) {
 
     var radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
 
-    radgrad.addColorStop(0, selectedPallet.color)
-    radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5))
-    radgrad.addColorStop(1, selectedPallet.color.alpha(0))
+    radgrad.addColorStop(0, selectedPallet.color.toString())
+    radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5).toString())
+    radgrad.addColorStop(1, selectedPallet.color.alpha(0).toString())
 
     ctx.fillStyle = radgrad
     ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
@@ -426,9 +426,9 @@ function draw(point) {
     if (isOnTimeText(pt)) continue
 
     radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
-    radgrad.addColorStop(0, selectedPallet.color)
-    radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5))
-    radgrad.addColorStop(1, selectedPallet.color.alpha(0))
+    radgrad.addColorStop(0, selectedPallet.color.toString())
+    radgrad.addColorStop(0.5, selectedPallet.color.alpha(0.5).toString())
+    radgrad.addColorStop(1, selectedPallet.color.alpha(0).toString())
     ctx.fillStyle = radgrad
     ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
 
@@ -440,9 +440,9 @@ function draw(point) {
       ctx.clip()
 
       radgrad = ctx.createRadialGradient(x,y,brushSize/4|0,x,y,brushSize/2|0)
-      radgrad.addColorStop(0, $white)
-      radgrad.addColorStop(0.9, $white.alpha(1))
-      radgrad.addColorStop(1, $white.alpha(0))
+      radgrad.addColorStop(0, $white.toString())
+      radgrad.addColorStop(0.9, $white.alpha(1).toString())
+      radgrad.addColorStop(1, $white.alpha(0).toString())
       ctx.fillStyle = radgrad
       ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
       ctx.fillRect(x-brushSize/2|0, y-brushSize/2|0, brushSize, brushSize)
