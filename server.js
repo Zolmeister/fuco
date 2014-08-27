@@ -4,6 +4,12 @@ var flo = require('fb-flo'),
 
 var express = require('express')
 var app = express()
+
+app.get('/manifest.webapp', function(req, res) {
+  res.header('Content-Type', 'application/x-web-app-manifest+json')
+  res.sendfile(__dirname + '/manifest.webapp')
+})
+
 app.use(express.static(__dirname))
 app.listen(process.env.PORT || 3000)
 

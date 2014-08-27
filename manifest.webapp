@@ -1,0 +1,16 @@
+{
+  "name": "Fuco",
+  "description": "Fuco, speed coloring! ",
+  "launch_path": "/",
+  "icons": {
+    "512": "/publish/icon-512.png",
+    "128": "/publish/icon-128.png",
+    "48": "/publish/icon-48.png",
+    "16": "/publish/icon-16.png"
+  },
+  "developer": {
+    "name": "Zolmeister",
+    "url": "http://zolmeister.com"
+  },
+  "default_locale": "en"
+}
