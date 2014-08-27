@@ -70,8 +70,14 @@ $play.style.fontSize = CWIDTH / 20 + 'px'
 $play.addEventListener('click', start)
 $play.addEventListener('touchstart', start)
 
-$playAgain.addEventListener('click', start)
-$playAgain.addEventListener('touchstart', start)
+$playAgain.addEventListener('click', function () {
+  ga('send', 'event', 'game', 'play', 'again')
+  start()
+})
+$playAgain.addEventListener('touchstart', function () {
+  ga('send', 'event', 'game', 'play', 'again')
+  start()
+})
 
 if (localStorage.highScore) {
   $highScore.innerHTML = 'best: ' + localStorage.highScore
@@ -116,6 +122,7 @@ window.addEventListener('load', function () {
 // showEnd(10)
 
 function grantCrystals() {
+  ga('send', 'event', 'game', 'grant', 'crystals')
   localStorage.lastTweet = Date.now()
   $crystalText.style.display = 'none'
   $crystalText2.style.display = 'none'

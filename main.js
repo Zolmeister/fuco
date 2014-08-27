@@ -40,6 +40,7 @@ function newGame() {
       var score = getScore()
       var isHigh = saveScore()
       hideGame()
+      ga('send', 'event', 'game', 'end', 'score', score)
       showEnd(score, isHigh)
     }
   }, 1000))
@@ -153,7 +154,7 @@ function useCrystal(point) {
 
   var crystalPoint = {x: crystal.x + WIDTH2, y: crystal.y + HEIGHT2}
   if (distanceBetween(point, crystalPoint) < crystal.size ) {
-
+    ga('send', 'event', 'game', 'crystal', 'use')
     var cnt = 15
     addTime()
 
